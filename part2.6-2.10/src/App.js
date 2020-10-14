@@ -1,27 +1,32 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
-
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import axios from 'axios'
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [ persons, setPersons ] = useState([]) 
   const [newName, setNewName ] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
   const [filter, setFilter] = useState("")
 
-
+//part 2.11
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promisefulfilled')
+        setPersons(response.data)
+      })
+  },[])
+console.log('render', persons.length, 'persons')
   const addName = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     //console.log('this is the name added',newName)
     //console.log('this is the number added', newNumber)
+    var id = persons.length 
     
     if(persons.some(person =>person.name === newName)){
       window.alert(`${newName} is already added to phonebook`);
@@ -32,9 +37,10 @@ const App = () => {
     else {
       const personObject ={
         name: newName,
-        number: newNumber
+        number: newNumber,
+        id: ++id
     }
-
+      
       setPersons(persons.concat(personObject))
       window.alert(`${newName} was successfully added`);
       setNewName('')
@@ -64,7 +70,7 @@ const App = () => {
   //const results = !filter ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
  // console.log("Okay till here line 64")
  //console.log("This is the filter value",filter)
-
+ console.log(persons)
   return (
     <div>
       <h2>Phonebook</h2>

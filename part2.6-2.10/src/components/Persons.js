@@ -9,7 +9,7 @@ const Persons = ({persons, filter})=> {
     <h2>Phonebook</h2>    
     <ul>
       
-        {results.map(person => <Person key = {person.name} person = {person}/>)}
+        {results.map(person => <Person key = {person.id} person = {person}/>)}
     </ul>
     </div>
     )
