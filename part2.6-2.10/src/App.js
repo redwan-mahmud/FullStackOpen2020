@@ -50,7 +50,7 @@ const addName = (event) => {
         .update(existing.id, {
           name: existing.name,
           number: newNumber
-        }). then(returnedPerson => {
+        }).then(returnedPerson => {
           setPersons(persons.map(person => person.id !== existing.id ? person: returnedPerson.data))
           notifyWith(`Changed number of ${existing.name}`)
           setNewName('')
